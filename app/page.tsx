@@ -8,7 +8,7 @@ import { GithubIcon, LinkedinIcon } from '@/components/Icons';
 const stats = [
   { label: 'GitHub Repos', value: '17+', color: 'text-cyan-400', glow: 'shadow-cyan-500/20' },
   { label: 'Current Role', value: 'Onfees Intern', color: 'text-purple-400', glow: 'shadow-purple-500/20' },
-  { label: 'Education', value: 'Diploma CS', color: 'text-emerald-400', glow: 'shadow-emerald-500/20' },
+  { label: 'Education', value: '2nd Year CS', color: 'text-emerald-400', glow: 'shadow-emerald-500/20' },
   { label: 'Domains', value: 'Web, AI, Mobile', color: 'text-amber-400', glow: 'shadow-amber-500/20' },
 ];
 
