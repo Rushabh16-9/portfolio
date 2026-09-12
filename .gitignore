@@ -1,0 +1,10 @@
+node_modules
+.next
+frontend/node_modules
+frontend/.next
+backend/__pycache__
+backend/portfolio.db
+.env
+.env.local
+.vercel
+*.log
