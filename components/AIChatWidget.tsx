@@ -40,7 +40,7 @@ export default function AIChatWidget() {
       let content = line;
 
       const linkRegex = /\[(.*?)\]\((.*?)\)/g;
-      const parts = [];
+      const parts: (string | JSX.Element)[] = [];
       let lastIdx = 0;
       let match;
 
@@ -54,7 +54,7 @@ export default function AIChatWidget() {
             href={match[2]}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-cyan-400 hover:text-cyan-300 underline font-semibold"
+            className="text-indigo-600 hover:text-indigo-700 underline font-semibold"
           >
             {match[1]}
           </a>
@@ -70,7 +70,7 @@ export default function AIChatWidget() {
         const boldParts = part.split(/\*\*(.*?)\*\*/g);
         return boldParts.map((bPart, bIdx) => {
           if (bIdx % 2 === 1) {
-            return <strong key={bIdx} className="font-bold text-white">{bPart}</strong>;
+            return <strong key={bIdx} className="font-bold text-slate-900">{bPart}</strong>;
           }
           return bPart;
         });
@@ -141,17 +141,17 @@ export default function AIChatWidget() {
           animate={{ scale: 1, opacity: 1 }}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
-          className="group relative flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-gradient-to-r from-cyan-500 via-indigo-500 to-purple-600 shadow-lg shadow-cyan-500/30 text-slate-950 font-bold"
+          className="group relative flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-indigo-600 hover:bg-indigo-700 shadow-lg shadow-indigo-300/60 text-white transition-colors"
         >
-          <Bot className="w-6 h-6 sm:w-7 sm:h-7 text-slate-950 relative z-10" />
+          <Bot className="w-6 h-6 sm:w-7 sm:h-7 text-white relative z-10" />
           <span className="absolute top-0 right-0 flex h-3 w-3 sm:h-3.5 sm:w-3.5">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-3 w-3 sm:h-3.5 sm:w-3.5 bg-emerald-400 border-2 border-slate-950"></span>
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-3 w-3 sm:h-3.5 sm:w-3.5 bg-emerald-500 border-2 border-white"></span>
           </span>
         </motion.button>
       )}
 
-      {/* Mobile-Friendly Compact Chat Window */}
+      {/* Chat Window */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -159,33 +159,33 @@ export default function AIChatWidget() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 15, scale: 0.95 }}
             transition={{ duration: 0.2 }}
-            className="w-[92vw] sm:w-[380px] h-[450px] sm:h-[500px] bg-slate-950/95 border border-cyan-500/30 rounded-2xl sm:rounded-3xl shadow-2xl backdrop-blur-2xl flex flex-col overflow-hidden transform-gpu"
+            className="w-[92vw] sm:w-[380px] h-[460px] sm:h-[510px] bg-white border border-slate-200 rounded-2xl sm:rounded-3xl shadow-2xl shadow-slate-900/15 flex flex-col overflow-hidden transform-gpu"
           >
             {/* Header */}
-            <div className="p-3.5 bg-gradient-to-r from-slate-900 via-slate-900 to-cyan-950/60 border-b border-white/10 flex items-center justify-between">
+            <div className="p-3.5 bg-indigo-600 flex items-center justify-between">
               <div className="flex items-center gap-2.5">
-                <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-cyan-400 to-purple-500 flex items-center justify-center text-slate-950 shadow-sm">
+                <div className="w-8 h-8 rounded-lg bg-white/20 flex items-center justify-center text-white shadow-sm">
                   <Bot className="w-4 h-4" />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-white text-xs sm:text-sm font-mono flex items-center gap-1">
-                    Rushabh AI <Sparkles className="w-3 h-3 text-cyan-400" />
+                  <h3 className="font-semibold text-white text-xs sm:text-sm flex items-center gap-1">
+                    Rushabh AI <Sparkles className="w-3 h-3 text-indigo-200" />
                   </h3>
-                  <p className="text-[10px] text-emerald-400 flex items-center gap-1">
+                  <p className="text-[10px] text-indigo-200 flex items-center gap-1">
                     <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" /> Live Assistant
                   </p>
                 </div>
               </div>
               <button
                 onClick={() => setIsOpen(false)}
-                className="p-1 rounded-lg text-gray-400 hover:text-white hover:bg-white/10 transition-colors"
+                className="p-1 rounded-lg text-indigo-200 hover:text-white hover:bg-white/20 transition-colors"
               >
                 <X className="w-4 h-4" />
               </button>
             </div>
 
             {/* Messages Container */}
-            <div className="flex-1 p-3 overflow-y-auto space-y-3 scrollbar-thin scrollbar-thumb-white/10 text-xs">
+            <div className="flex-1 p-3 overflow-y-auto space-y-3 text-xs bg-slate-50">
               {messages.map((m) => (
                 <div
                   key={m.id}
@@ -196,8 +196,8 @@ export default function AIChatWidget() {
                   <div
                     className={`max-w-[90%] rounded-xl px-3.5 py-2.5 leading-relaxed ${
                       m.sender === 'user'
-                        ? 'bg-gradient-to-r from-cyan-500 to-purple-600 text-slate-950 font-medium rounded-tr-none'
-                        : 'bg-slate-900/90 border border-white/10 text-gray-200 rounded-tl-none'
+                        ? 'bg-indigo-600 text-white font-medium rounded-tr-none shadow-sm'
+                        : 'bg-white border border-slate-200 text-slate-700 rounded-tl-none shadow-sm'
                     }`}
                   >
                     {formatText(m.text)}
@@ -209,7 +209,7 @@ export default function AIChatWidget() {
                         <button
                           key={i}
                           onClick={() => handleSend(act)}
-                          className="text-[10px] font-mono px-2.5 py-0.5 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 hover:bg-cyan-500/25 transition-all text-left"
+                          className="text-[10px] font-medium px-2.5 py-1 rounded-full bg-indigo-50 border border-indigo-200 text-indigo-700 hover:bg-indigo-100 transition-all"
                         >
                           ⚡ {act}
                         </button>
@@ -219,7 +219,7 @@ export default function AIChatWidget() {
                 </div>
               ))}
               {loading && (
-                <div className="flex items-center gap-1.5 text-[11px] text-cyan-400 bg-slate-900 p-2.5 rounded-xl border border-cyan-500/30 w-fit">
+                <div className="flex items-center gap-1.5 text-[11px] text-indigo-600 bg-indigo-50 p-2.5 rounded-xl border border-indigo-200 w-fit">
                   <Sparkles className="w-3 h-3 animate-spin" />
                   <span>Thinking...</span>
                 </div>
@@ -228,7 +228,7 @@ export default function AIChatWidget() {
             </div>
 
             {/* Input Bar */}
-            <div className="p-2.5 border-t border-white/10 bg-slate-900/80">
+            <div className="p-2.5 border-t border-slate-200 bg-white">
               <form
                 onSubmit={(e) => {
                   e.preventDefault();
@@ -241,12 +241,12 @@ export default function AIChatWidget() {
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   placeholder="Ask about education, Onfees, skills..."
-                  className="flex-1 bg-slate-950 border border-white/10 rounded-lg px-3 py-2 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-cyan-400 transition-colors"
+                  className="flex-1 bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 transition-all"
                 />
                 <button
                   type="submit"
                   disabled={loading || !input.trim()}
-                  className="p-2 rounded-lg bg-gradient-to-r from-cyan-400 to-purple-500 text-slate-950 hover:opacity-90 disabled:opacity-50 transition-opacity"
+                  className="p-2 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white disabled:opacity-50 transition-colors"
                 >
                   <Send className="w-3.5 h-3.5" />
                 </button>

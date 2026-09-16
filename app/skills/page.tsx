@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Cpu, Code2, Server, Smartphone, CheckCircle } from 'lucide-react';
+import { Cpu, CheckCircle } from 'lucide-react';
 
 interface Skill {
   name: string;
@@ -58,6 +58,13 @@ const fallbackCategories: Category[] = [
   },
 ];
 
+const categoryAccents: Record<number, { header: string; bar: string; check: string; icon: string }> = {
+  0: { header: 'border-t-indigo-500', bar: 'bg-indigo-500', check: 'text-indigo-500', icon: 'bg-indigo-100 text-indigo-600' },
+  1: { header: 'border-t-violet-500', bar: 'bg-violet-500', check: 'text-violet-500', icon: 'bg-violet-100 text-violet-600' },
+  2: { header: 'border-t-sky-500', bar: 'bg-sky-500', check: 'text-sky-500', icon: 'bg-sky-100 text-sky-600' },
+  3: { header: 'border-t-emerald-500', bar: 'bg-emerald-500', check: 'text-emerald-500', icon: 'bg-emerald-100 text-emerald-600' },
+};
+
 export default function Skills() {
   const [categories, setCategories] = useState<Category[]>(fallbackCategories);
 
@@ -70,73 +77,76 @@ export default function Skills() {
   }, []);
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-8 sm:space-y-12">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14 space-y-10 sm:space-y-14">
       {/* Header */}
-      <div className="text-center max-w-3xl mx-auto space-y-3">
+      <div className="text-center max-w-3xl mx-auto space-y-4">
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 text-xs font-mono"
+          className="badge mx-auto"
         >
           <Cpu className="w-3.5 h-3.5" />
           <span>Technical Competencies</span>
         </motion.div>
-        <h1 className="text-3xl sm:text-5xl font-extrabold text-white">
-          Skills & <span className="text-gradient-cyan">Proficiency</span>
+        <h1 className="text-3xl sm:text-5xl font-extrabold text-slate-900">
+          Skills & <span className="text-gradient-primary">Proficiency</span>
         </h1>
-        <p className="text-gray-300 text-xs sm:text-base">
+        <p className="text-slate-500 text-sm sm:text-base">
           Engineering capabilities across full-stack web, REST APIs, Flutter mobile apps, and AI document systems.
         </p>
       </div>
 
       {/* Categories Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
-        {categories.map((cat, idx) => (
-          <motion.div
-            key={cat.category}
-            initial={{ opacity: 0, y: 15 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.4, delay: idx * 0.08 }}
-            className="glass-panel p-5 sm:p-7 rounded-2xl sm:rounded-3xl border border-white/10 space-y-4 hover:border-cyan-400/40 transition-colors"
-          >
-            <div className="flex items-center gap-3 border-b border-white/10 pb-3">
-              <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-cyan-500 to-purple-600 flex items-center justify-center text-slate-950 font-bold">
-                <Cpu className="w-4 h-4" />
-              </div>
-              <h2 className="text-lg font-bold text-white font-mono">{cat.category}</h2>
-            </div>
-
-            <div className="space-y-4">
-              {cat.skills.map((s) => (
-                <div key={s.name} className="space-y-1.5">
-                  <div className="flex items-center justify-between text-xs sm:text-sm">
-                    <span className="font-semibold text-white flex items-center gap-1.5">
-                      <CheckCircle className="w-3.5 h-3.5 text-cyan-400" />
-                      {s.name}
-                    </span>
-                    <span className="font-mono text-xs text-cyan-300 font-bold">{s.level}%</span>
-                  </div>
-
-                  {/* Meter bar */}
-                  <div className="w-full h-2 rounded-full bg-slate-900 overflow-hidden border border-white/5">
-                    <motion.div
-                      initial={{ width: 0 }}
-                      whileInView={{ width: `${s.level}%` }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 0.8, ease: 'easeOut' }}
-                      className="h-full rounded-full bg-gradient-to-r from-cyan-400 via-indigo-500 to-purple-500"
-                    />
-                  </div>
-
-                  <p className="text-[10px] font-mono text-gray-400">
-                    <strong className="text-gray-500">Context:</strong> {s.highlight}
-                  </p>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6">
+        {categories.map((cat, idx) => {
+          const accent = categoryAccents[idx] || categoryAccents[0];
+          return (
+            <motion.div
+              key={cat.category}
+              initial={{ opacity: 0, y: 15 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4, delay: idx * 0.08 }}
+              className={`card p-5 sm:p-7 rounded-2xl space-y-5 border-t-4 ${accent.header}`}
+            >
+              <div className="flex items-center gap-3 pb-3 border-b border-slate-100">
+                <div className={`w-9 h-9 rounded-xl flex items-center justify-center font-bold ${accent.icon}`}>
+                  <Cpu className="w-4 h-4" />
                 </div>
-              ))}
-            </div>
-          </motion.div>
-        ))}
+                <h2 className="text-base font-bold text-slate-900">{cat.category}</h2>
+              </div>
+
+              <div className="space-y-4">
+                {cat.skills.map((s) => (
+                  <div key={s.name} className="space-y-1.5">
+                    <div className="flex items-center justify-between text-xs sm:text-sm">
+                      <span className="font-semibold text-slate-800 flex items-center gap-1.5">
+                        <CheckCircle className={`w-3.5 h-3.5 ${accent.check}`} />
+                        {s.name}
+                      </span>
+                      <span className="font-bold text-slate-500 text-xs">{s.level}%</span>
+                    </div>
+
+                    {/* Skill bar */}
+                    <div className="skill-track w-full h-2 rounded-full">
+                      <motion.div
+                        initial={{ width: 0 }}
+                        whileInView={{ width: `${s.level}%` }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.8, ease: 'easeOut' }}
+                        className={`h-full rounded-full ${accent.bar}`}
+                      />
+                    </div>
+
+                    <p className="text-[10px] text-slate-400">
+                      <strong className="text-slate-500">Context:</strong> {s.highlight}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+          );
+        })}
       </div>
     </div>
   );
