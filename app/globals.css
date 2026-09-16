@@ -33,10 +33,18 @@
 
 /* Text Gradients */
 .text-gradient-primary {
-  background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 60%, #0ea5e9 100%);
+  background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 40%, #0ea5e9 80%, #4f46e5 100%);
+  background-size: 300% 300%;
+  animation: gradient-flow 6s ease-in-out infinite;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+}
+
+@keyframes gradient-flow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
 .text-gradient-accent {
@@ -101,4 +109,11 @@
     radial-gradient(circle at 20% 20%, rgba(99, 102, 241, 0.06) 0%, transparent 50%),
     radial-gradient(circle at 80% 80%, rgba(14, 165, 233, 0.05) 0%, transparent 50%),
     radial-gradient(circle at 50% 0%, rgba(124, 58, 237, 0.04) 0%, transparent 60%);
+  background-size: 200% 200%;
+  animation: bg-pulse 15s ease-in-out infinite alternate;
+}
+
+@keyframes bg-pulse {
+  0% { background-position: 0% 0%; }
+  100% { background-position: 100% 100%; }
 }
